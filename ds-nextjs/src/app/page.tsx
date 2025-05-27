@@ -1,6 +1,7 @@
 'use client';
 import Card from "@/components/Card";
 import Grid from "@/components/Grid";
+import Insights from "@/components/Insights";
 import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 
@@ -59,9 +60,13 @@ export default function Home() {
     // <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
     <div className="mx-32 my-16">
       {/* date select */}
-      <Card>
-        Start Date:<DatePicker selected={startDate} onChange={(date) => date ? setStartDate(date) : null} />
-        End Date:<DatePicker selected={endDate} onChange={(date) => date ? setEndDate(date) : null} />
+      <Card className="flex items-center">
+        <div>
+          Start Date:<DatePicker selected={startDate} onChange={(date) => date ? setStartDate(date) : null} />
+        </div>
+        <div>
+          End Date:<DatePicker selected={endDate} onChange={(date) => date ? setEndDate(date) : null} />
+        </div>
         <button
           className="ml-4 bg-blue-500 text-white px-4 py-2 rounded cursor-pointer"
           onClick={() => {
@@ -82,18 +87,28 @@ export default function Home() {
           {`Selected End Date: ${endDate.toISOString()}`}
         </div>
       </Card> */}
-      {/* agGrid  */}
-      <Card>
-        {data === null ? "Loading..." : (
-          <>
-            <div className="text-2xl pb-4">Raw Data <span className="text-base">{`Row Count: ${data!.length}`}</span></div>
-            <Grid rowData={data!} />
-            {/* <pre>{JSON.stringify(data, null, 2)} </pre>*/}
-          </>
-        )}
-      </Card>
 
-
+      <div className="flex">
+        {/* agGrid  */}
+        <Card className="grow">
+          {data === null ? "Loading..." : (
+            <>
+              <div className="text-2xl pb-4">Raw Data <span className="text-base">{`Row Count: ${data!.length}`}</span></div>
+              <Grid rowData={data!} />
+              {/* <pre>{JSON.stringify(data, null, 2)} </pre>*/}
+            </>
+          )}
+        </Card>
+        {/* Insight Search  */}
+        <Card className="basis-1/3 ml-1">
+          {data === null ? "Loading..." : (
+            <>
+              <div className="text-2xl pb-4">Insight Search</div>
+              <Insights rowData={data!} />
+            </>
+          )}
+        </Card>
+      </div>
     </div>
   );
 }
