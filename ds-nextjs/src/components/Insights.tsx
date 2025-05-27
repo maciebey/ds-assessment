@@ -20,6 +20,10 @@ const Days = {
 const Insights = ({ rowData }: InsightsProps) => {
     const [max15, setMax15] = useState<number | null>(null);
     const [min15, setMin15] = useState<number | null>(null);
+    const [maxDay, setMaxDay] = useState<number | null>(null);
+    const [maxTimestamp, setMaxTimestamp] = useState<string | null>(null);
+
+    
     const [selectedDays, setSelectedDays] = useState<number[]>([0,1,2,3,4,5,6]); // All days selected by default
 
 
@@ -41,9 +45,36 @@ const Insights = ({ rowData }: InsightsProps) => {
         const usageData = filteredRows.map(row => row.Usage_kWh);
         const maxUsage = Math.max(...usageData);
         const minUsage = Math.min(...usageData);
-
         setMax15(maxUsage);
         setMin15(minUsage);
+
+        let y = filteredRows[0].date.slice(0, 4);
+        let m = filteredRows[0].date.slice(5, 7);
+        let d = filteredRows[0].date.slice(8, 10);
+        let dayTotal = 0;
+        let max = -1;
+        let maxDate = '';
+        for (const row of filteredRows) {
+            const ny = row.date.slice(0, 4);
+            const nm = row.date.slice(5, 7);
+            const nd = row.date.slice(8, 10);
+
+            // if the date has changed, reset the day total
+            if (y !== ny || m !== nm || d !== nd) {
+                if (dayTotal > max) {
+                    max = dayTotal;
+                    maxDate = `${y}-${m}-${d}`;
+                }
+                y = ny;
+                m = nm;
+                d = nd;
+                dayTotal = 0;
+            }
+
+            dayTotal += row.Usage_kWh;
+        }
+        setMaxDay(max);
+        setMaxTimestamp(maxDate);
     };
 
     useEffect(() => {
@@ -120,7 +151,12 @@ const Insights = ({ rowData }: InsightsProps) => {
                         Minimum Usage: {min15} kWh
                     </div>
                 )}
-                {max15 === null && min15 === null && (
+                {maxDay !== null && maxTimestamp !== null && (
+                    <div className="text-blue-600 dark:text-blue-400">
+                        Maximum Daily Usage: {maxDay.toFixed(2)} kWh on {maxTimestamp}
+                    </div>
+                )}
+                {max15 === null && min15 === null && maxDay === null && (
                     <div className="text-gray-500">No data for selected days.</div>
                 )}
             </div>

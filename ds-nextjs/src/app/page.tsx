@@ -25,13 +25,6 @@ export interface Row {
 export default function Home() {
   const [data, setData] = useState<null | Row[]>(null);
 
-  const now = new Date();
-  console.log("Current date and time:", now.toISOString());
-  console.log("Current date and time (local):", now.toLocaleString());
-  console.log("Current date and time (UTC):", now.toUTCString());
-  console.log("Current date and time (ISO):", now.toISOString());
-  console.log("Current date and time (timestamp):", now.getTime());
-
   // TODO: implement real timezone fix like: https://stackoverflow.com/a/61157388
   const [startDate, setStartDate] = useState(new Date('2018-01-01T08:00:00Z'));
   const [endDate, setEndDate] = useState(new Date('2018-01-03T08:00:00Z'));
