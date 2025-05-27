@@ -9,11 +9,12 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 # import csv file
 df = pd.read_csv("src/ds_flask_api/data/Steel_industry_data.csv")
 # Convert 'date' column to datetime format
-df["date"] = pd.to_datetime(df["date"], format="%d/%m/%Y %H:%M").dt.date
+df["date"] = pd.to_datetime(df["date"], format="%d/%m/%Y %H:%M")
 
 
+# TODO: handle time selection
 @app.route("/")
-def helloworld():
+def getRowsByDate():
     start_date_str = request.args.get("start_date")
     end_date_str = request.args.get("end_date")
 
@@ -23,8 +24,11 @@ def helloworld():
             400,
         )
 
+    # this will be messed up when date setting is fixed in the frontend
     start_date = parser.parse(request.args.get("start_date")).date()
     end_date = parser.parse(request.args.get("end_date")).date()
+    start_date = pd.to_datetime(start_date)
+    end_date = pd.to_datetime(end_date)
 
     filtered_df = df[(df["date"] >= start_date) & (df["date"] <= end_date)]
 
