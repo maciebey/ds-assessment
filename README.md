@@ -1,5 +1,7 @@
 # ds-assessment
 
+![App Screenshot](https://github.com/maciebey/ds-assessment/main/assets/images/ds_screenshot.png)
+
 This repo represents about 3 hours of work. My goal was to work in a general sense of creating a usable POC application. Application has a basic layout and functions pretty reliably in terms of fetching data bewteen a selectable start and end date, viewing retrieved raw data in a grid component with sort/filtering/pagination abilities, and the start of basic insight done client side with the ability to exclude certain days of the week.
 
 Next steps after checking in with stakeholders and getting a better understanding of the source data:
