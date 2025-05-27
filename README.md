@@ -1,6 +1,9 @@
 # ds-assessment
 
-![App Screenshot](https://github.com/maciebey/ds-assessment/main/assets/images/ds_screenshot.png)
+<picture>
+      <source srcset="https://raw.githubusercontent.com/maciebey/ds-assessment/main/ds_screenshot.png">
+      <img alt="App Screenshot" src="https://raw.githubusercontent.com/maciebey/ds-assessment/main/ds_screenshot.png" height="300" style="max-width: 100%;">
+</picture>
 
 This repo represents about 3 hours of work. My goal was to work in a general sense of creating a usable POC application. Application has a basic layout and functions pretty reliably in terms of fetching data bewteen a selectable start and end date, viewing retrieved raw data in a grid component with sort/filtering/pagination abilities, and the start of basic insight done client side with the ability to exclude certain days of the week.
 
