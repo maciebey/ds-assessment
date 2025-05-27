@@ -1,11 +1,12 @@
 'use client';
+import Grid from "@/components/Grid";
 import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 
-interface Row {
-  date: number;
+export interface Row {
+  date: string;//Date;
   Usage_kWh: number;
   'Lagging_Current_Reactive.Power_kVarh': number;
   Leading_Current_Reactive_Power_kVarh: number;
@@ -20,7 +21,14 @@ interface Row {
 }
 
 export default function Home() {
-  const [data, setData] = useState<null | Row[]>();
+  const [data, setData] = useState<null | Row[]>(null);
+
+  const now = new Date();
+  console.log("Current date and time:", now.toISOString());
+  console.log("Current date and time (local):", now.toLocaleString());
+  console.log("Current date and time (UTC):", now.toUTCString());
+  console.log("Current date and time (ISO):", now.toISOString());
+  console.log("Current date and time (timestamp):", now.getTime());
 
   // TODO: implement real timezone fix like: https://stackoverflow.com/a/61157388
   const [startDate, setStartDate] = useState(new Date('2018-01-01T08:00:00Z'));
@@ -32,8 +40,13 @@ export default function Home() {
     fetch(url)
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
-        setData(data as Row[]);
+        const c: Row[] = data.map((row: any) => ({
+          ...row,
+          // using DateString formatting on ag-grid, would probhably need to
+          // be adjusted for costumer preference in future
+          date: (new Date(row.date)).toISOString(),
+        }));
+        setData(c);
       })
   }
 
@@ -70,7 +83,8 @@ export default function Home() {
       {data === null ? "Loading..." : (
         <>
           <div>{`Row Count: ${data!.length}`}</div>
-          {JSON.stringify(data, null, 2)}
+          <Grid rowData={data!}/>
+          {/* {JSON.stringify(data, null, 2)} */}
         </>
       )}
       
